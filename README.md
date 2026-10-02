@@ -327,7 +327,6 @@ Threatwatch/
 ├── alert_reader.py
 ├── alert_parser.py
 ├── alert_normalizer.py
-├── incident_analyzer.py
 ├── statistics.py
 ├── requirements.txt
 └── .gitignore
