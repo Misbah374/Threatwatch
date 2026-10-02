@@ -241,7 +241,6 @@ The application listens on port `5000`.
 | `/` | Basic project status |
 | `/health` | Health check |
 | `/alerts` | Returns normalized Wazuh alerts |
-| `/incidents` | Returns detected incidents |
 | `/statistics` | Returns alert and incident statistics |
 
 For example:
@@ -344,7 +343,6 @@ Threatwatch/
 | `alert_reader.py` | Reads Wazuh alerts |
 | `alert_parser.py` | Parses raw Wazuh alert JSON |
 | `alert_normalizer.py` | Converts parsed data into normalized Alert objects |
-| `incident_analyzer.py` | Performs basic incident correlation |
 | `statistics.py` | Generates alert and incident statistics |
 
 ---
