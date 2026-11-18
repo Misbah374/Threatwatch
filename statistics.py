@@ -60,12 +60,17 @@ class StatisticsService:
             "total_alerts": len(alerts),
             "unique_rules": len(rules),
             "unique_agents": len(agents),
-            "unique_source_ips": len(source_ips)
+            "unique_source_ips": len(source_ips),
+            "alerts_with_source_ip": sum(1 for alert in alerts if alert.source_ip),
+            "alerts_without_source_ip": sum(1 for alert in alerts if not alert.source_ip),
+            "alerts_without_agent": sum(1 for alert in alerts if not alert.agent)
         }
 
     def _severity(self, alerts):
         counts = Counter(
-            alert.severity or 0
+            alert.severity
+            if alert.severity is not None
+            else "Unknown"
             for alert in alerts
         )
 
@@ -99,10 +104,12 @@ class StatisticsService:
         rules = []
 
         for rule_id, count in rule_counts.most_common():
+            percentage = (count/len(alerts)*100) if alerts else 0
             rules.append({
                 "rule_id": rule_id,
                 "description": rule_descriptions.get(rule_id),
-                "count": count
+                "count": count,
+                "percentage": round(percentage, 2)
             })
 
         return rules

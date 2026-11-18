@@ -2,13 +2,14 @@
 # Creates and configures the Flask application and connects the API routes.
 
 from flask import Flask
-
+from dotenv import load_dotenv
 from routes import routes
 from alert_reader import AlertReader
 from alert_parser import AlertParser
 from alert_normalizer import AlertNormalizer
 from statistics import StatisticsService
 
+load_dotenv()
 
 def create_app():
     app = Flask(__name__)
@@ -53,6 +54,9 @@ def run_terminal_demo():
     print(f"      Unique rules       : {overview['unique_rules']}")
     print(f"      Unique agents      : {overview['unique_agents']}")
     print(f"      Unique source IPs  : {overview['unique_source_ips']}")
+    print(f"      Alerts with source IP    : {overview['alerts_with_source_ip']}")
+    print(f"      Alerts without source IP : {overview['alerts_without_source_ip']}")
+    print(f"      Alerts without agent     : {overview['alerts_without_agent']}")
 
     print("\n    Severity distribution:")
 
@@ -70,7 +74,8 @@ def run_terminal_demo():
     for rule in stats["rules"][:5]:
         print(
             f"      Rule {rule['rule_id']}: "
-            f"{rule['count']} alerts"
+            f"{rule['count']} alerts "
+            f"{rule['percentage']}%"
         )
         print(
             f"        {rule['description']}"
@@ -122,9 +127,9 @@ def run_terminal_demo():
         f"{time_stats['busiest_hour']}"
     )
 
-    print("\n[4] Last 5 alerts:")
+    print("\n[4] Last 20 alerts:")
 
-    for alert in alerts[-5:]:
+    for alert in alerts[-20:]:
         print("\n    -------------------------")
         print(f"    Time       : "f"{statistics.format_timestamp(alert.timestamp)}")
         print(f"    Rule ID    : {alert.rule_id}")

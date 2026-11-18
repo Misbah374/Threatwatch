@@ -2,6 +2,7 @@
 # Defines Flask API routes that expose ThreatWatch functionality to clients.
 
 from flask import Blueprint, jsonify
+from auth import token_required
 from statistics import StatisticsService
 from alert_reader import AlertReader
 from alert_parser import AlertParser
@@ -26,6 +27,7 @@ def health():
     })
 
 @routes.route("/statistics")
+@token_required
 def statistics():
 
     reader = AlertReader()
@@ -50,6 +52,7 @@ def statistics():
     return jsonify(stats)
 
 @routes.route("/alerts")
+@token_required
 def alerts():
 
     reader = AlertReader()
